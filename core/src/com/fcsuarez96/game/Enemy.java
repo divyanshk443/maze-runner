@@ -8,42 +8,29 @@ import java.util.HashMap;
 
 
 public class Enemy extends Entity {
-
-  public enum GhostColor {RED, ORANGE, BLUE, PINK}
+  String[] ghostColors = {"RED", "ORANGE", "BLUE", "PINK"};
 
   private HashMap<Double, Direction> directionChoice = new HashMap<>();
 
-  public Enemy(Game game, GhostColor color) {
+  public Enemy(Game game,int x,int y,int colorIndex) {
     super(game, "barnacle.png");
-
-    switch (color) {
-      case RED:
-        sprite.setColor(Color.RED);
-        x = 9;
-        y = 11;
-        speed = 0.2f;
-        break;
-      case PINK:
-        sprite.setColor(Color.PINK);
-        x = 11;
-        y = 11;
-        speed = 0.2f;
-        break;
-      case ORANGE:
+    this.x=x;
+    this.y=y;
+    speed=0.4f;
+    switch (colorIndex) {
+      case 1:
         sprite.setColor(Color.ORANGE);
-        x = 10;
-        y = 12;
-        speed = 0.2f;
         break;
-      case BLUE:
+      case 2:
         sprite.setColor(Color.BLUE);
-        x = 10;
-        y = 11;
-        speed = 0.2f;
+        break;
+      case 3:
+        sprite.setColor(Color.PINK);
+        break;
+      default:
+        sprite.setColor(Color.RED);
         break;
     }
-
-
   }
 
   public void update(float delta) {
@@ -57,7 +44,6 @@ public class Enemy extends Entity {
   private void updateMovement() {
     if (isIntersection()) {
       directionChoice.clear();
-
       if (!game.map.isWall(this, Direction.UP) && direction != Direction.DOWN) {
         directionChoice.put(Math.random(), Direction.UP);
       }
@@ -70,8 +56,12 @@ public class Enemy extends Entity {
       if (!game.map.isWall(this, Direction.RIGHT) && direction != Direction.LEFT) {
         directionChoice.put(Math.random(), Direction.RIGHT);
       }
-      Double key = directionChoice.keySet().stream().sorted().findFirst().get();
-      direction = directionChoice.get(key);
+      if (!directionChoice.isEmpty()) {
+        Double key = directionChoice.keySet().stream().sorted().findFirst().get();
+        direction = directionChoice.get(key);
+      } else {
+        direction=Direction.RIGHT;
+      }
 
     } else if (noWay()) {
       switch (direction) {
