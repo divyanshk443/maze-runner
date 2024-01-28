@@ -2,8 +2,6 @@
 
 Welcome to my first game with libgdx, this is just a small project for testing libgdx<br>
 
-**Hello it's me now in 2022 :P, this was one of my first projects so the code is kinda fun to read but it makes me realize how much I have improved**
-**I decided to give some love to this project and update the whole library since it was not compatible with Mac m1**
 
 ![a](image.png)
 
